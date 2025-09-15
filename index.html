@@ -3,34 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Buka Visuals — Mobilya İçerik Üretimi</title>
+  <title>Bugra Visuals — Mobilya İçerik Üretimi</title>
   <meta name="description" content="Mobilya markaları için haftalık ortam tasarımları ve video içerik. Her hafta paylaşmaya hazır görseller." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=cssmenu1" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <!-- Mobile nav hardening (works even if styles.css lacks mobile rules) -->
   <style>
-    /* Base tweaks to avoid horizontal scroll on small screens */
-    html, body { overflow-x: hidden; }
-    .nav { position: sticky; top: 0; z-index: 40; display:flex; align-items:center; justify-content:space-between; padding:18px 4vw; background:rgba(255,255,255,.8); backdrop-filter:saturate(1.1) blur(8px); border-bottom:1px solid #e8e8ec; }
-    .menu-btn { display: none; background:none; border:0; padding:8px; gap:5px; flex-direction:column; cursor:pointer; }
-    .menu-btn span { width:24px; height:2px; background:#111; display:block; }
-    /* Mobile behaviour */
-    @media (max-width: 820px) {
-      .nav nav { display: none; position: fixed; inset: 64px 16px auto 16px; background:#fff; border:1px solid #e8e8ec; border-radius:12px; padding:12px; box-shadow:0 10px 30px rgba(0,0,0,.08); }
-      .nav nav.open { display: grid; gap: 12px; }
-      .menu-btn { display: flex; }
-      /* Make small buttons full-width in the dropdown for easier tapping */
-      .nav nav.open a.btn--sm { display:block; text-align:center; }
+    html,body{overflow-x:hidden}
+    .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 4vw;background:rgba(255,255,255,.8);backdrop-filter:saturate(1.1) blur(8px);border-bottom:1px solid #e8e8ec}
+    .brand{font-family:'Playfair Display',serif;font-weight:600}
+    /* CSS-only hamburger */
+    #navToggle{display:none}
+    .hamb{display:none;gap:6px;padding:10px;border-radius:10px}
+    .hamb span{width:24px;height:2px;background:#111;display:block}
+    nav.site-nav{display:flex;gap:22px;align-items:center}
+    @media (max-width:820px){
+      .hamb{display:flex;cursor:pointer}
+      nav.site-nav{display:none}
+      /* when checked, show menu */
+      #navToggle:checked ~ nav.site-nav{display:grid;gap:12px;position:fixed;inset:64px 16px auto 16px;background:#fff;border:1px solid #e8e8ec;border-radius:12px;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+      #navToggle:checked ~ .hamb{position:relative}
+      #navToggle:checked ~ .hamb span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+      #navToggle:checked ~ .hamb span:nth-child(2){opacity:0}
+      #navToggle:checked ~ .hamb span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     }
   </style>
 </head>
 <body>
   <header class="nav">
     <a class="brand" href="#hero">Bugra Visuals</a>
-    <nav id="siteNav" aria-label="Ana menü">
+
+    <!-- CSS-only toggle -->
+    <input type="checkbox" id="navToggle" aria-label="Menüyü Aç/Kapat" />
+    <label for="navToggle" class="hamb" aria-hidden="true"><span></span><span></span><span></span></label>
+
+    <nav class="site-nav" aria-label="Ana menü">
       <a href="#services">Hizmetler</a>
       <a href="#portfolio">Portfolyo</a>
       <a href="#about">Hakkımda</a>
@@ -38,9 +47,6 @@
       <a href="#pricing" class="btn btn--sm">Fiyat</a>
       <a href="#contact" class="btn btn--sm">İletişim</a>
     </nav>
-    <button id="menuBtn" aria-label="Menü" class="menu-btn" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
   </header>
 
   <section id="hero" class="hero">
@@ -159,40 +165,12 @@
     </div>
   </footer>
 
-  <script src="script.js?v=3"></script>
   <script>
-    // Ensure mobile menu works even if external script isn't loaded
-    (function(){
-      const btn = document.getElementById('menuBtn');
-      const nav = document.getElementById('siteNav');
-      if(!btn || !nav) return;
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-        // lock background scroll when menu open on mobile
-        if (open && window.matchMedia('(max-width: 820px)').matches) {
-          document.documentElement.style.overflow = 'hidden';
-        } else {
-          document.documentElement.style.overflow = '';
-        }
-      });
-      // Close on link click (mobile)
-      nav.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A' && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          document.documentElement.style.overflow = '';
-        }
-      });
-      // Close on resize to desktop
-      window.addEventListener('resize', () => {
-        if (window.innerWidth > 820 && nav.classList.contains('open')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-          document.documentElement.style.overflow = '';
-        }
-      });
-    })();
+    const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+    const wa=document.getElementById('whatsappBtn');
+    if(wa){const num='900000000000'; const msg=encodeURIComponent('Merhaba Buğra, haftalık içerik paketi hakkında görüşmek istiyorum.');
+      wa.addEventListener('click',()=>window.open(`https://wa.me/${num}?text=${msg}`,'_blank'));
+    }
   </script>
 </body>
 </html>

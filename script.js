@@ -1,18 +1,14 @@
 // Yıl
-const yearEl = document.getElementById('year');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+const y = document.getElementById('year');
+if (y) y.textContent = new Date().getFullYear();
 
 // WhatsApp
 const WHATSAPP_NUMBER = '900000000000';
 const WA_MSG = encodeURIComponent('Merhaba Buğra, haftalık içerik paketi hakkında görüşmek istiyorum.');
-const waBtn = document.getElementById('whatsappBtn');
-if (waBtn) {
-  waBtn.addEventListener('click', () => {
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${WA_MSG}`, '_blank');
-  });
-}
+const wa = document.getElementById('whatsappBtn');
+if (wa) wa.addEventListener('click', () => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${WA_MSG}`, '_blank'));
 
-// Hamburger menü (tek gerçek kaynak)
+// Hamburger menü
 (function () {
   const btn = document.getElementById('menuBtn');
   const nav = document.getElementById('siteNav');
@@ -23,33 +19,19 @@ if (waBtn) {
     btn.setAttribute('aria-expanded', 'false');
     document.documentElement.style.overflow = '';
   };
-
   const openMenu = () => {
     nav.classList.add('open');
     btn.setAttribute('aria-expanded', 'true');
-    document.documentElement.style.overflow = 'hidden'; // arka plan kilidi
+    document.documentElement.style.overflow = 'hidden';
   };
 
   btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (nav.classList.contains('open')) closeMenu(); else openMenu();
+    e.preventDefault(); e.stopPropagation();
+    nav.classList.contains('open') ? closeMenu() : openMenu();
   });
-
-  // Linke tıklayınca kapat
-  nav.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A') closeMenu();
-  });
-
-  // Dışarı tıklayınca kapat
+  nav.addEventListener('click', (e) => { if (e.target.tagName === 'A') closeMenu(); });
   document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && e.target !== btn && nav.classList.contains('open')) {
-      closeMenu();
-    }
+    if (!nav.contains(e.target) && e.target !== btn && nav.classList.contains('open')) closeMenu();
   });
-
-  // Desktop’a dönünce reset
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 820) closeMenu();
-  });
+  window.addEventListener('resize', () => { if (window.innerWidth > 820) closeMenu(); });
 })();

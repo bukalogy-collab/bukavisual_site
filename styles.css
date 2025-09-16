@@ -55,4 +55,29 @@ input,textarea{background:#fff;border:1px solid var(--line);border-radius:10px;p
   /* açılınca görünür */
   .nav nav.open{display:grid !important;gap:12px}
   .nav nav.open a.btn--sm{display:block;text-align:center}
+  /* Mobil dropdown: cam efekti + slide-down animasyon */
+.dropdown{
+  position:absolute; right:16px; top:64px;
+  background:rgba(255,255,255,.86);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:12px; padding:10px;
+  box-shadow:0 10px 28px rgba(0,0,0,.10);
+  width:min(86vw, 360px);
+
+  /* animasyon başlangıcı */
+  display:block;
+  opacity:0; 
+  transform:translateY(-8px) scale(.98);
+  transform-origin: top right;
+  pointer-events:none;
+  transition: opacity .22s ease, transform .22s ease;
+}
+.dropdown.open{
+  opacity:1; 
+  transform:none;
+  pointer-events:auto;
+}
+
 }
